@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import * as C from './App.styles';
+import { Item } from './types/Item';
+import { AddArea } from "./components/AddArea";
+import { ListItem } from './components/ListItem';
 
-function App() {
+const App = () => {
+
+  const [list, setList] = useState<Item[]>([]);
+
+  useEffect(() => {
+    const itens = [
+      { id: 1, name: 'Comprar café', done: false },
+      { id: 2, name: 'Comprar leite', done: true },
+      { id: 3, name: 'Ligar para TV', done: false },
+    ]
+    setList(itens)    
+  }, [])
+
+  const handleAddTask = (name: string) => {
+    const cloneList = [...list];
+    const id = cloneList.length + 1;
+    cloneList.push({id, name, done: false});
+    setList(cloneList);
+  }
+
+  const handleUpdateTask = (idItemUpdate: number) => {
+    const cloneList = list.map((item:Item) => {
+      if ( item.id === idItemUpdate) {
+        item.done = !item.done;
+      }
+      return item;
+    })    
+    setList(cloneList);    
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <C.Container>
+      <C.Area>
+        <C.Header>Lista de Tareafas</C.Header>
+      
+        <AddArea onEnter={handleAddTask}/>
+
+
+        {list.map((item, index) => {
+          return (
+            <ListItem key={index} item={item} onChange={handleUpdateTask} />
+          )
+        })}
+
+      </C.Area>
+    </C.Container>
   );
+
 }
 
 export default App;
