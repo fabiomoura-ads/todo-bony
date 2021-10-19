@@ -8,6 +8,7 @@ import QrReader from 'react-qr-reader';
 const App = () => {
 
   const [list, setList] = useState<Item[]>([]);
+  const [ scanResult, setScanResult ] = useState('');
 
   useEffect(() => {
     const itens = [
@@ -39,8 +40,11 @@ const App = () => {
 
   }
 
-  const handleScan = () => {
-
+  const handleScan = (result: string | null) => {
+    if ( result ) {
+      setScanResult(result);
+      console.log(result)
+    }
   }
 
   return (
@@ -57,8 +61,10 @@ const App = () => {
           )
         })}
 
-        <QrReader 
-        
+      {scanResult &&
+        <div>Resultado encontrado: {scanResult}</div>
+      }
+        <QrReader         
           onError={handleError}
           onScan={handleScan}
         />
