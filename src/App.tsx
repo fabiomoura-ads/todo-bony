@@ -64,10 +64,7 @@ const App = () => {
       {scanResult &&
         <div>Resultado encontrado: {scanResult}</div>
       }
-        <QrReader         
-          onError={handleError}
-          onScan={handleScan}
-        />
+      
       </C.Area>
     </C.Container>
   );
