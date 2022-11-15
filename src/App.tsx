@@ -3,12 +3,10 @@ import * as C from './App.styles';
 import { Item } from './types/Item';
 import { AddArea } from "./components/AddArea";
 import { ListItem } from './components/ListItem';
-import QrReader from 'react-qr-reader';
 
 const App = () => {
 
   const [list, setList] = useState<Item[]>([]);
-  const [ scanResult, setScanResult ] = useState('');
 
   useEffect(() => {
     const itens = [
@@ -36,17 +34,6 @@ const App = () => {
     setList(cloneList);
   }
 
-  const handleError = ()  => {
-
-  }
-
-  const handleScan = (result: string | null) => {
-    if ( result ) {
-      setScanResult(result);
-      console.log(result)
-    }
-  }
-
   return (
     <C.Container>
       <C.Area>
@@ -54,17 +41,12 @@ const App = () => {
 
         <AddArea onEnter={handleAddTask} />
 
-
         {list.map((item, index) => {
           return (
             <ListItem key={index} item={item} onChange={handleUpdateTask} />
           )
         })}
 
-      {scanResult &&
-        <div>Resultado encontrado: {scanResult}</div>
-      }
-      
       </C.Area>
     </C.Container>
   );
